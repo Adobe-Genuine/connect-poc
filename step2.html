@@ -1,0 +1,30 @@
+<html><body>
+<div id="o"></div>
+<script>
+var o = document.getElementById('o');
+function log(m) { o.innerHTML += m + '<br>'; }
+
+// launchUrl opens URLs via the OS (NSWorkspace.open or similar)
+// On macOS NSWorkspace.openURL handles file:// URLs by OPENING the file
+// with its default application. For .app bundles, it LAUNCHES them.
+
+// Try different file URL formats
+var fileUrls = [
+    'file:///System/Applications/Calculator.app',
+    'file:///System/Applications/Calculator.app/',
+    'file:///Applications/Utilities/Terminal.app',
+    '/System/Applications/Calculator.app',
+    'File:///System/Applications/Calculator.app'
+];
+
+for (var i = 0; i < fileUrls.length; i++) {
+    try {
+        var r = connectApp.launchUrl(fileUrls[i]);
+        log('launchUrl("' + fileUrls[i] + '") = ' + r);
+    } catch(e) {
+        log('launchUrl("' + fileUrls[i] + '") ERROR: ' + e.message);
+    }
+}
+
+</script>
+</body></html>
